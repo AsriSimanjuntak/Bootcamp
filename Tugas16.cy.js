@@ -6,7 +6,9 @@ describe('QUIZ', () => {
 
     cy.get('input[placeholder="Username"]').type('Admin');
     cy.get('input[placeholder="Password"]').type('admin123');
+    cy.intercept('GET', 'https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/action-summary').as('actionSummary')
     cy.contains('button', 'Login').click();
+    cy.wait('@actionSummary').its('response.statuscode').should('eq',200);
     cy.get('.oxd-topbar-header-breadcrumb', { timeout: 15000 })
       .should('be.visible');
 

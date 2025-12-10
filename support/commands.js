@@ -23,3 +23,26 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('selectDropdown', (labelText, optionText) => {
+  
+  // Klik dropdown berdasarkan label
+  cy.contains('label', labelText, { timeout: 15000 })
+    .should('be.visible')
+    .parent()
+    .find('[class*=control], [class*=container], .css-19bb58m')
+    .first()
+    .click({ force: true });
+
+  // Klik opsi
+  cy.get('body', { timeout: 15000 })
+    .contains(optionText)
+    .should('be.visible')
+    .click({ force: true });
+
+  // Verifikasi: value muncul di field dropdown
+  cy.contains('label', labelText)
+    .parent()
+    .find('div[class*="-singleValue"], div > div:nth-child(2) > div')
+    .should('contain.text', optionText);
+});
