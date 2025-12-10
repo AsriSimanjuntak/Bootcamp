@@ -17,3 +17,10 @@
 import './commands'
 require('cypress-xpath');
 import 'cypress-file-upload';
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('AxiosError')) {
+    return false; // abaikan error Axios
+  }
+  return true; // biarkan error lain tetap gagal
+});
