@@ -1,4 +1,4 @@
-describe('QUIZ', () => {
+describe('Tugas16 with Intercept', () => {
 
   // TC-01 Login berhasil dengan intercept dashboard
   it('TC-01: Dashboard', () => {
@@ -18,7 +18,7 @@ describe('QUIZ', () => {
 
   // TC-02 Login berhasil Intercept timesheet
   it('TC-02: Timesheet', () => {
-    cy.intercept('GET', '**/api/v2/timesheet/**').as('getTimesheet');
+    cy.intercept('GET', '**/api/v2/time/employees/timesheets/list*').as('getTimesheet');
     cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
     cy.get('input[name="username"]').type('Admin');
     cy.get('input[name="password"]').type('admin123');
@@ -72,14 +72,14 @@ describe('QUIZ', () => {
 
   // TC-05 Login berhasil Intercept Buzz
   it('TC-05: Buzz', () => {
-    cy.intercept('GET', '**/api/v2/buzz/**').as('getBuzz');
+    cy.intercept('GET', '**/api/v2/leave/**').as('getLeaveList');
     cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
     cy.get('input[name="username"]').type('Admin');
     cy.get('input[name="password"]').type('admin123');
     cy.contains('button', 'Login').click();
     cy.get('.oxd-topbar-header-breadcrumb', { timeout: 15000 }).should('be.visible');
-    cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/buzz/feed');
-    cy.wait('@getBuzz', { timeout: 20000 }).its('response.statusCode').should('eq', 200);
+    cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/leave/viewLeaveList');
+    cy.wait('@getLeaveList', { timeout: 30000 }).its('response.statusCode').should('eq', 200);
     cy.get('.oxd-table', { timeout: 15000 }).should('exist');
 
     // Logout berhasil

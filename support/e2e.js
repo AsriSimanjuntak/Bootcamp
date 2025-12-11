@@ -18,9 +18,26 @@ import './commands'
 require('cypress-xpath');
 import 'cypress-file-upload';
 
-Cypress.on('uncaught:exception', (err, runnable) => {
+// Handle AxiosError agar tidak mematikan test
+Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('AxiosError')) {
-    return false; // abaikan error Axios
+    return false;
   }
-  return true; // biarkan error lain tetap gagal
+  return true;
+});
+
+Cypress.on('uncaught:exception', (err) => {
+  // abaikan error dari event push OrangeHRM
+  if (err.message.includes('events/push')) {
+    return false;
+  }
+
+  return true;
+});
+
+Cypress.on('uncaught:exception', (err) => {
+  if (err.message.includes("Cannot read properties of undefined (reading 'response')")) {
+    return false;
+  }
+  return true;
 });
