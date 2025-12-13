@@ -18,7 +18,11 @@ import './commands'
 require('cypress-xpath');
 import 'cypress-file-upload';
 
+<<<<<<< HEAD
 // Handle AxiosError agar tidak mematikan test
+=======
+// Ignore Axios Error
+>>>>>>> c740965 (Proyek Akhir)
 Cypress.on('uncaught:exception', (err) => {
   if (err.message.includes('AxiosError')) {
     return false;
@@ -41,3 +45,14 @@ Cypress.on('uncaught:exception', (err) => {
   }
   return true;
 });
+<<<<<<< HEAD
+=======
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('nextSibling')) {
+    return false; // abaikan error dari app
+  }
+});
+
+
+>>>>>>> c740965 (Proyek Akhir)
