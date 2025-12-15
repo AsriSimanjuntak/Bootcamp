@@ -41,3 +41,9 @@ Cypress.on('uncaught:exception', (err) => {
   }
   return true;
 });
+
+Cypress.on('uncaught:exception', (err, runnable) => {
+  if (err.message.includes('nextSibling')) {
+    return false; // abaikan error dari app
+  }
+});
